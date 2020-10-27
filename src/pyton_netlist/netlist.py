@@ -55,7 +55,7 @@ class Netlist:
                         except:
                             raise Exception("pin {} of {} not mapped".format(pin, component))
                 if ncomp == 0 and not ignore_missing:
-                    raise Exception("net {} has no assiciated pin!".format(n))
+                    raise Exception("net {} has no associated pin!".format(n))
         return " ".join(balls)
 
     def check_orphands(self, min_pins=2):

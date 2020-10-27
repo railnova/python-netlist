@@ -9,29 +9,27 @@ Parse Altium designer (and probably other) netlist.
 Description
 ===========
 
-A netlist describes all the electrical connection between then components of a Printed Circuit Board. A typical Altium Designer generated Netlist looks like this:
+A netlist describes all the electrical connection between then components of a Printed Circuit Board. A typical Altium Designer generated Netlist looks like this::
 
-``
-Wire List
-
-<<< Component List >>>
-100Ohms                         R1             0402
-1uF                             C10            1206
-
-<<< Wire List >>>
-
-  NODE  REFERENCE  PIN #   PIN NAME       PIN TYPE    PART VALUE
-
-[00002] VCC
-        R1         1                      PASSIVE     myresistor
-        C10        2                      PASSIVE     mycap
-
-[00001] GND
-        R1         2                      PASSIVE     myresistor
-        C10        1                      PASSIVE     mycap
-
-
-``
+    Wire List
+    
+    <<< Component List >>>
+    100Ohms                         R1             0402
+    1uF                             C10            1206
+    
+    <<< Wire List >>>
+    
+      NODE  REFERENCE  PIN #   PIN NAME       PIN TYPE    PART VALUE
+    
+    [00002] VCC
+            R1         1                      PASSIVE     myresistor
+            C10        2                      PASSIVE     mycap
+    
+    [00001] GND
+            R1         2                      PASSIVE     myresistor
+            C10        1                      PASSIVE     mycap
+    
+    
 
 It contains
  1. a very crude BOM (value, designator, package)
@@ -48,37 +46,33 @@ SOM connection helper
 On large System On Module, it can be very tedious and error-prone to define the different signal connection in device trees, or in an Hardware Design (for FPGA designs)
 
 Using to the `find_pins` function, it is possible to retreive pin names from on a net name.
-You first have to define your module connectors and pins this way:
+You first have to define your module connectors and pins this way::
 
-``
-pz_pins = {
-    "JX1" : {
-        "9" : "R19",
-        "10" : "T19",
-        "11" : "T11",
-        "12" : "T12",
-        "13" : "T10",
-        "14" : "U12",
-    },
-    "JX2" : {
-        "13" : "G14",
-        "14" : "J15",
-        "17" : "C20",
-        "18" : "B19",
-    },
-}
-``
+    pz_pins = {
+        "JX1" : {
+            "9" : "R19",
+            "10" : "T19",
+            "11" : "T11",
+            "12" : "T12",
+            "13" : "T10",
+            "14" : "U12",
+        },
+        "JX2" : {
+            "13" : "G14",
+            "14" : "J15",
+            "17" : "C20",
+            "18" : "B19",
+        },
+    }
 
 in this example, the SOM has 2 connectors which are seperate parts on the PCB, called "JX1" and "JX2". Pin 9 of connector JX1 is named pin "R19" internally in the SOM.
 
-This also works on components which have a single part (in this example only the first 2 pins are described):
+This also works on components which have a single part (in this example only the first 2 pins are described)::
 
-``
-stmf32F407_64_pins = {
-	"1" : "VBAT",
-	"2" : "PC13",
-}
-``
+    stmf32F407_64_pins = {
+    	"1" : "VBAT",
+    	"2" : "PC13",
+    }
 
 
 Automatic Checks

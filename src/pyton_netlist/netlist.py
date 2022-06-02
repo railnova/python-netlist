@@ -62,7 +62,7 @@ class Netlist:
     def check_orphands(self, min_pins=2):
         """return a list of nets that have less than min_pins connections"""
         netlist = self.netlist
-        return {n: netlist[n] for n in netlist if len(netlist[n]) < min_pins}
+        return {n: netlist[n] for n in netlist if len(netlist[n]) < min_pins and not n.endswith('_NC')}
 
 if __name__ == '__main__':
     import argparse

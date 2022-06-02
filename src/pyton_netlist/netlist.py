@@ -2,6 +2,7 @@
 # Author: Charles-Henri Mousset
 # 
 # Netlist parsing for filling platform ios
+from pprint import pprint
 
 class Netlist:
     """A netlist is a dict of all the nets (signals) on a PCB, and of all its connections to the
@@ -72,14 +73,14 @@ if __name__ == '__main__':
     parser.add_argument('file', help="Netlist")
     args = parser.parse_args()
 
-    print("parsing" + args.file)
+    print("...Parsing " + args.file + "...")
     netlist = Netlist(args.file)
     if not args.no_checks:
         print("###### Check Orphands ######")
         orphands = netlist.check_orphands()
         if len(orphands):
             print("## Possible orphands:")
-            print(orphands)
+            pprint(orphands)
         else:
             print("No orphands: OK")
 

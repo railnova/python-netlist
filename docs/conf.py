@@ -35,7 +35,7 @@ except ImportError:
     from sphinx import apidoc
 
 output_dir = os.path.join(__location__, "api")
-module_dir = os.path.join(__location__, "../src/pyton_netlist")
+module_dir = os.path.join(__location__, "../src/python_netlist")
 try:
     shutil.rmtree(output_dir)
 except FileNotFoundError:
@@ -216,7 +216,7 @@ html_static_path = ['_static']
 # html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'pyton_netlist-doc'
+htmlhelp_basename = 'python_netlist-doc'
 
 
 # -- Options for LaTeX output --------------------------------------------------

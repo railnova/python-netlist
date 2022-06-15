@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-    Setup file for pyton_netlist.
+    Setup file for python_netlist.
     Use setup.cfg to configure your project.
 
     This file was generated with PyScaffold 3.2.3.

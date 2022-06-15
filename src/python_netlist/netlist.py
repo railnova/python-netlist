@@ -1,12 +1,15 @@
+#!/usr/bin/env python3
 # Copyright 2020 Railnova SA
 # Author: Charles-Henri Mousset
 # 
 # Netlist parsing for filling platform ios
 from pprint import pprint
 
+
 class Netlist:
     """A netlist is a dict of all the nets (signals) on a PCB, and of all its connections to the
     different components of that board."""
+
     def __init__(self, path):
         self.path = path
         netlist = {}
@@ -27,7 +30,7 @@ class Netlist:
                     while len(txt[i]) > 4:
                         l = txt[i].strip()
                         tok = l.split()
-                        net_conns.update({tok[0] : tok[1]})
+                        net_conns.update({tok[0]: tok[1]})
                         i += 1
                     netlist.update({net_name: net_conns})
                 i += 1
@@ -59,13 +62,16 @@ class Netlist:
                     raise Exception("net {} has no associated pin!".format(n))
         return " ".join(balls)
 
-    def check_orphands(self, min_pins=2):
+    def check_orphans(self, min_pins=2):
         """return a list of nets that have less than min_pins connections"""
         netlist = self.netlist
-        return {n: netlist[n] for n in netlist if len(netlist[n]) < min_pins and not (n.startswith('NC_') or ('.NC_' in n))}
+        return {n: netlist[n] for n in netlist if
+                len(netlist[n]) < min_pins and not (n.startswith('NC_') or ('.NC_' in n))}
+
 
 if __name__ == '__main__':
     import argparse
+
     parser = argparse.ArgumentParser(description='Netlist tool')
     parser.add_argument('--out', type=str, help='JSON output file')
     parser.add_argument('--no-checks', default=False, action='store_true',
@@ -76,15 +82,17 @@ if __name__ == '__main__':
     print("...Parsing " + args.file + "...")
     netlist = Netlist(args.file)
     if not args.no_checks:
-        print("###### Check Orphands ######")
-        orphands = netlist.check_orphands()
-        if len(orphands):
-            print("## Possible orphands:")
-            pprint(orphands)
+        print("###### Check Orphans ######")
+        orphans = netlist.check_orphans()
+        if len(orphans):
+            print("## Possible orphans:")
+            pprint(orphans)
+            exit(1)
         else:
-            print("No orphands: OK")
+            print("No orphans: OK")
 
     if args.out:
         import json
+
         with open(args.out, 'w') as f:
             json.dump(netlist.netlist, f)

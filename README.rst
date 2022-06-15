@@ -80,7 +80,7 @@ Automatic Checks
 
 Common Schematic capture mistakes can be caught analyzing the Netlist. The most common is probably unconnected pins due to a bad net label.
 
-`check_orphands` lists all nets that have (by default) less than 2 connections.
+`check_orphans` lists all nets that have (by default) less than 2 connections.
 
 Command-line tool
 =================

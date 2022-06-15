@@ -62,7 +62,7 @@ class Netlist:
                     raise Exception("net {} has no associated pin!".format(n))
         return " ".join(balls)
 
-    def check_orphands(self, min_pins=2):
+    def check_orphans(self, min_pins=2):
         """return a list of nets that have less than min_pins connections"""
         netlist = self.netlist
         return {n: netlist[n] for n in netlist if
@@ -82,14 +82,14 @@ if __name__ == '__main__':
     print("...Parsing " + args.file + "...")
     netlist = Netlist(args.file)
     if not args.no_checks:
-        print("###### Check Orphands ######")
-        orphands = netlist.check_orphands()
-        if len(orphands):
-            print("## Possible orphands:")
-            pprint(orphands)
+        print("###### Check Orphans ######")
+        orphans = netlist.check_orphans()
+        if len(orphans):
+            print("## Possible orphans:")
+            pprint(orphans)
             exit(1)
         else:
-            print("No orphands: OK")
+            print("No orphans: OK")
 
     if args.out:
         import json

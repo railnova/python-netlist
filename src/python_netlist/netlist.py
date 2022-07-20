@@ -25,12 +25,12 @@ class Netlist:
                 l = l.strip()
                 if '[' in l:
                     net_name = l.split()[1]
-                    net_conns = {}
+                    net_conns = []
                     i += 1
                     while len(txt[i]) > 4:
                         l = txt[i].strip()
                         tok = l.split()
-                        net_conns.update({tok[0]: tok[1]})
+                        net_conns.append({tok[0]: tok[1]})
                         i += 1
                     netlist.update({net_name: net_conns})
                 i += 1

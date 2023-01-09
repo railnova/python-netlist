@@ -13,8 +13,12 @@ class Netlist:
     def __init__(self, path):
         self.path = path
         netlist = {}
-        with open(path) as net:
-            txt = net.readlines()
+        with open(path, encoding='utf-8') as net:
+            try:
+                txt = net.readlines()
+            except UnicodeDecodeError:
+                print("\n!!! Make sure the symbol degree is not in the part description !!!\n")
+                return
             i = 0
             while "NODE" not in txt[i]:
                 i += 1

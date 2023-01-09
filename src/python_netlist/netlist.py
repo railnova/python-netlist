@@ -36,31 +36,37 @@ class Netlist:
                 i += 1
         self.netlist = netlist
 
-    def find_pins(self, nets, con_to_pin, ignore_missing=False):
+    def find_pins(self, nets, con_to_pin, err_missing=True, err_multiple=True):
         """find the corresponding net connections in con_to_pin.
         If a net has multiple pins matching the net, raise an error.
         It returns a space-separated pin locations string.
         nets can be a single net name, or a python list"""
-        balls = []
+        pins = []
         if not isinstance(nets, list):
             nets = [nets]
         for n in nets:
             if n in self.netlist:
                 ncomp = 0
-                for component in self.netlist[n]:
-                    if component in con_to_pin:
-                        if ncomp:
-                            errmsg = "net {} connected on multiple FPGA pads: {}".format(n, self.netlist[n])
-                            raise Error(errmsg)
-                        ncomp += 1
-                        pin = self.netlist[n][component]
-                        try:
-                            balls.append(con_to_pin[component][pin])
-                        except:
-                            raise Exception("pin {} of {} not mapped".format(pin, component))
-                if ncomp == 0 and not ignore_missing:
+                for conn in self.netlist[n]:
+                    for component in conn:
+                        if component in con_to_pin:
+                            if ncomp and err_multiple:
+                                errmsg = "net {} connected on multiple FPGA pads: {}".format(n, self.netlist[n])
+                                raise Error(errmsg)
+                            ncomp += 1
+                            pin = conn[component]
+                            try:
+                                pins.append(con_to_pin[component][pin])
+                            except:
+                                if err_missing:
+                                    raise Exception("pin {} of {} not mapped".format(pin, component))
+                if ncomp == 0 and err_missing:
                     raise Exception("net {} has no associated pin!".format(n))
-        return " ".join(balls)
+            elif err_missing:
+                raise Exception("net {} not found in netlist!".format(n))
+        return " ".join(pins)
+
+
 
     def check_orphans(self, min_pins=2):
         """return a list of nets that have less than min_pins connections"""

@@ -76,7 +76,7 @@ class Netlist:
         """return a list of nets that have less than min_pins connections"""
         netlist = self.netlist
         return {n: netlist[n] for n in netlist if
-                len(netlist[n]) < min_pins and not (n.startswith('NC_') or n.endswith('_NC') or ('.NC_' in n))}
+                len(netlist[n]) < min_pins and not (n.startswith('NC_') or ('_NC' in n) or ('.NC_' in n))}
 
 
 if __name__ == '__main__':
